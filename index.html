@@ -45,9 +45,80 @@
 
       <!-- Vue ist nur in diesem Bereich aktiv -->
       <div id="app">
-        <p>Hier entsteht die Datentabelle.</p>
+        <div class="alert alert-info" role="note">
+          Alle Daten sind fiktiv und dienen ausschließlich der Veranschaulichung.
+        </div>
+
+        <!-- Filter -->
+        <form class="row g-3 mb-3" @submit.prevent>
+          <div class="col-12 col-md-5">
+            <label for="filterLand" class="form-label">Nach Land filtern</label>
+            <input id="filterLand" type="text" class="form-control"
+                   v-model="filterLand" maxlength="50" placeholder="z. B. Deutschland">
+          </div>
+          <div class="col-12 col-md-5">
+            <label for="filterUnternehmen" class="form-label">Nach Unternehmen filtern</label>
+            <input id="filterUnternehmen" type="text" class="form-control"
+                   v-model="filterUnternehmen" maxlength="50" placeholder="z. B. Nordwind">
+          </div>
+          <div class="col-12 col-md-2 d-flex align-items-end">
+            <button type="button" class="btn btn-outline-secondary w-100"
+                    @click="filterZuruecksetzen">Zurücksetzen</button>
+          </div>
+        </form>
+
+        <p class="text-muted small" aria-live="polite">
+          {{ angezeigteDaten.length }} von {{ daten.length }} Einträgen
+        </p>
+
+        <!-- Tabelle -->
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <caption>Fiktive CO2-Emissionen nach Land und Unternehmen</caption>
+            <thead class="table-success">
+              <tr>
+                <th scope="col" :aria-sort="ariaSort('unternehmen')">
+                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                          @click="sortierenNach('unternehmen')">
+                    Unternehmen <span aria-hidden="true">{{ pfeil('unternehmen') }}</span>
+                  </button>
+                </th>
+                <th scope="col" :aria-sort="ariaSort('land')">
+                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                          @click="sortierenNach('land')">
+                    Land <span aria-hidden="true">{{ pfeil('land') }}</span>
+                  </button>
+                </th>
+                <th scope="col" :aria-sort="ariaSort('branche')">
+                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                          @click="sortierenNach('branche')">
+                    Branche <span aria-hidden="true">{{ pfeil('branche') }}</span>
+                  </button>
+                </th>
+                <th scope="col" class="text-end" :aria-sort="ariaSort('emissionen')">
+                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                          @click="sortierenNach('emissionen')">
+                    CO2 in Mio. t/Jahr <span aria-hidden="true">{{ pfeil('emissionen') }}</span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="eintrag in angezeigteDaten" :key="eintrag.unternehmen">
+                <td>{{ eintrag.unternehmen }}</td>
+                <td>{{ eintrag.land }}</td>
+                <td>{{ eintrag.branche }}</td>
+                <td class="text-end">{{ formatieren(eintrag.emissionen) }}</td>
+              </tr>
+              <tr v-if="angezeigteDaten.length === 0">
+                <td colspan="4" class="text-center text-muted">
+                  Keine Einträge gefunden für „{{ filterLand }}{{ filterUnternehmen }}“.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </main>
 
     <!-- Footer mit rechtlichen Hinweisen -->
     <footer class="bg-dark text-light py-3">

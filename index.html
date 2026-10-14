@@ -181,13 +181,88 @@
       <div class="container d-flex flex-wrap justify-content-between gap-2">
         <span>&copy; 2026 CO2-Footprint</span>
         <span>
-          <a href="#" class="link-light">Impressum</a> ·
-          <a href="#" class="link-light">Datenschutz</a>
-       </span>
+          <button type="button" class="btn btn-link link-light p-0 align-baseline"
+                  data-bs-toggle="modal" data-bs-target="#impressumModal">Impressum</button>
+          ·
+          <button type="button" class="btn btn-link link-light p-0 align-baseline"
+                  data-bs-toggle="modal" data-bs-target="#datenschutzModal">Datenschutz</button>
+        </span>
       </div>
     </footer>
 
   </div>
+
+  <!-- Impressum -->
+  <div class="modal fade" id="impressumModal" tabindex="-1" aria-labelledby="impressumTitel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="impressumTitel">Impressum</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">
+            Diese Webseite ist ein Studienprojekt. Organisation, Anschrift und Kontaktdaten sind fiktiv.
+          </p>
+          <h3 class="h6">Angaben zur Organisation</h3>
+          <p>
+            CO2-Footprint e. V.<br>
+            Musterstraße 1<br>
+            12345 Musterstadt
+          </p>
+          <h3 class="h6">Vertreten durch</h3>
+          <p>Max Mustermann (Vorstand)</p>
+          <h3 class="h6">Kontakt</h3>
+          <p>E-Mail: kontakt@co2-footprint.example</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datenschutzhinweis -->
+  <div class="modal fade" id="datenschutzModal" tabindex="-1" aria-labelledby="datenschutzTitel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="datenschutzTitel">Datenschutzhinweis</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">
+            Dieser Hinweis ist ein Muster im Rahmen eines Studienprojekts.
+          </p>
+          <h3 class="h6">Keine Erhebung personenbezogener Daten</h3>
+          <p>
+            Diese Webseite setzt keine Cookies, verwendet kein Tracking und speichert keine Eingaben.
+            Die Filterfelder werden ausschließlich im Browser verarbeitet.
+          </p>
+          <h3 class="h6">Hosting</h3>
+          <p>
+            Die Webseite wird über GitHub Pages bereitgestellt. Beim Aufruf verarbeitet GitHub technisch
+            notwendige Daten wie die IP-Adresse, um die Seite auszuliefern.
+          </p>
+          <h3 class="h6">Externe Bibliotheken</h3>
+          <p>
+            Bootstrap und Vue.js werden über das Content Delivery Network jsDelivr geladen. Dabei wird
+            die IP-Adresse der Besuchenden an den Anbieter übertragen.
+          </p>
+          <h3 class="h6">Ihre Rechte</h3>
+          <p>
+            Sie haben nach der Datenschutz-Grundverordnung unter anderem das Recht auf Auskunft,
+            Berichtigung und Löschung Ihrer Daten.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- Bootstrap JS und Vue 3 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"

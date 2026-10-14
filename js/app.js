@@ -12,7 +12,7 @@ createApp({
   },
 
   computed: {
-    // Filtert und sortiert die Daten bei jeder Eingabe automatisch neu
+    // Filtert und sortiert Daten bei jeder Eingabe automatisch neu
     angezeigteDaten() {
       const land = this.filterLand.trim().toLowerCase();
       const unternehmen = this.filterUnternehmen.trim().toLowerCase();
@@ -34,6 +34,7 @@ createApp({
     }
   },
 
+  
   
   methods: {
     sortierenNach(schluessel) {

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CO2-Footprint</title>
 
-  <!-- Bootstrap 5 (feste Version mit Integritätsprüfung) -->
+  <!-- Bootstrap 5 -->
   <link id="bootstrap-css" rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
         crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <div class="d-flex flex-column min-vh-100">
 
-    <!-- Header mit globaler Navigation -->
+    <!-- Header -->
     <header>
       <nav class="navbar navbar-expand-md navbar-dark bg-success">
         <div class="container">
@@ -30,95 +32,149 @@
           </button>
           <div class="collapse navbar-collapse" id="globalNav">
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Start</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Daten</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Über uns</a></li>
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" data-text="start">Start</a></li>
+              <li class="nav-item"><a class="nav-link" href="#tabelle" data-text="daten">Daten</a></li>
+              <li class="nav-item"><a class="nav-link" href="#hinweise" data-text="ueber">Über uns</a></li>
             </ul>
+
+
+            <!-- Sprachumschaltung -->
+            <div class="btn-group ms-md-3 my-2 my-md-0" role="group" aria-label="Sprache wählen">
+              <button type="button" class="btn btn-sm btn-outline-light"
+                      data-sprache="de" aria-pressed="true">DE</button>
+              <button type="button" class="btn btn-sm btn-outline-light"
+                      data-sprache="ar" lang="ar" aria-pressed="false">العربية</button>
+            </div>
           </div>
         </div>
       </nav>
     </header>
 
+
     <!-- Content-Bereich -->
     <main class="container my-4 flex-grow-1">
-      <h1>CO2-Emissionen weltweit</h1>
+      <div class="row g-4">
 
-      <!-- Vue ist nur in diesem Bereich aktiv -->
-      <div id="app">
-        <div class="alert alert-info" role="note">
-          Alle Daten sind fiktiv und dienen ausschließlich der Veranschaulichung.
+        <!-- Lokales Menü -->
+        <aside class="col-12 col-md-3">
+          <nav aria-labelledby="lokaleNavTitel">
+            <h2 id="lokaleNavTitel" class="h6 text-muted" data-text="inhalt">Inhalt</h2>
+            <ul class="nav flex-column">
+              <li class="nav-item"><a class="nav-link px-0" href="#einfuehrung" data-text="einfuehrung">Einführung</a></li>
+              <li class="nav-item"><a class="nav-link px-0" href="#tabelle" data-text="tabelle">Tabelle</a></li>
+              <li class="nav-item"><a class="nav-link px-0" href="#hinweise" data-text="hinweise">Hinweise</a></li>
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- Hauptinhalt -->
+        <div class="col-12 col-md-9">
+          <h1 data-text="titel">CO2-Emissionen weltweit</h1>
+
+          <section id="einfuehrung" class="mb-4">
+            <p>
+              Kohlendioxid entsteht vor allem beim Verbrennen von Kohle, Öl und Gas und ist
+              der wichtigste Treiber des Klimawandels. Die folgende Tabelle zeigt, wie viel
+              CO2 verschiedene Unternehmen in unterschiedlichen Ländern pro Jahr ausstoßen.
+              Über die Filter und einen Klick auf die Spaltenköpfe lassen sich die Daten
+              gezielt vergleichen.
+            </p>
+          </section>
+
+          <section id="tabelle" class="mb-4">
+            <h2 class="h4" data-text="tabelle">Tabelle</h2>
+
+            <!-- Vue ist nur in diesem Bereich aktiv -->
+            <div id="app">
+              <div class="alert alert-info" role="note">
+                Alle Daten sind fiktiv und dienen ausschließlich der Veranschaulichung.
+              </div>
+
+              <!-- Filter -->
+              <form class="row g-3 mb-3" @submit.prevent>
+                <div class="col-12 col-lg-5">
+                  <label for="filterLand" class="form-label">Nach Land filtern</label>
+                  <input id="filterLand" type="text" class="form-control"
+                         v-model="filterLand" maxlength="50" placeholder="z. B. Deutschland">
+                </div>
+                <div class="col-12 col-lg-5">
+                  <label for="filterUnternehmen" class="form-label">Nach Unternehmen filtern</label>
+                  <input id="filterUnternehmen" type="text" class="form-control"
+                         v-model="filterUnternehmen" maxlength="50" placeholder="z. B. Nordwind">
+                </div>
+                <div class="col-12 col-lg-2 d-flex align-items-end">
+                  <button type="button" class="btn btn-outline-secondary w-100"
+                          @click="filterZuruecksetzen">Zurücksetzen</button>
+                </div>
+              </form>
+
+              <p class="text-muted small" aria-live="polite">
+                {{ angezeigteDaten.length }} von {{ daten.length }} Einträgen
+              </p>
+
+
+              <!-- Tabelle -->
+              <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                  <caption>Fiktive CO2-Emissionen nach Land und Unternehmen</caption>
+                  <thead class="table-success">
+                    <tr>
+                      <th scope="col" :aria-sort="ariaSort('unternehmen')">
+                        <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                                @click="sortierenNach('unternehmen')">
+                          Unternehmen <span aria-hidden="true">{{ pfeil('unternehmen') }}</span>
+                        </button>
+                      </th>
+                      <th scope="col" :aria-sort="ariaSort('land')">
+                        <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                                @click="sortierenNach('land')">
+                          Land <span aria-hidden="true">{{ pfeil('land') }}</span>
+                        </button>
+                      </th>
+                      <th scope="col" :aria-sort="ariaSort('branche')">
+                        <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                                @click="sortierenNach('branche')">
+                          Branche <span aria-hidden="true">{{ pfeil('branche') }}</span>
+                        </button>
+                      </th>
+                      <th scope="col" class="text-end" :aria-sort="ariaSort('emissionen')">
+                        <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
+                                @click="sortierenNach('emissionen')">
+                          CO2 in Mio. t/Jahr <span aria-hidden="true">{{ pfeil('emissionen') }}</span>
+                        </button>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="eintrag in angezeigteDaten" :key="eintrag.unternehmen">
+                      <td>{{ eintrag.unternehmen }}</td>
+                      <td>{{ eintrag.land }}</td>
+                      <td>{{ eintrag.branche }}</td>
+                      <td class="text-end">{{ formatieren(eintrag.emissionen) }}</td>
+                   </tr>
+                    <tr v-if="angezeigteDaten.length === 0">
+                      <td colspan="4" class="text-center text-muted">
+                        Keine Einträge gefunden für „{{ filterLand }}{{ filterUnternehmen }}“.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="hinweise" class="mb-4">
+            <h2 class="h4" data-text="hinweise">Hinweise</h2>
+            <p>
+              Diese Webseite ist ein Studienprojekt einer fiktiven Klimaschutzorganisation.
+              Alle Unternehmen und Werte sind frei erfunden. Ziel ist es, Emissionsdaten
+              verständlich und für alle zugänglich darzustellen.
+            </p>
+          </section>
         </div>
 
-        <!-- Filter -->
-        <form class="row g-3 mb-3" @submit.prevent>
-          <div class="col-12 col-md-5">
-            <label for="filterLand" class="form-label">Nach Land filtern</label>
-            <input id="filterLand" type="text" class="form-control"
-                   v-model="filterLand" maxlength="50" placeholder="z. B. Deutschland">
-          </div>
-          <div class="col-12 col-md-5">
-            <label for="filterUnternehmen" class="form-label">Nach Unternehmen filtern</label>
-            <input id="filterUnternehmen" type="text" class="form-control"
-                   v-model="filterUnternehmen" maxlength="50" placeholder="z. B. Nordwind">
-          </div>
-          <div class="col-12 col-md-2 d-flex align-items-end">
-            <button type="button" class="btn btn-outline-secondary w-100"
-                    @click="filterZuruecksetzen">Zurücksetzen</button>
-          </div>
-        </form>
-
-        <p class="text-muted small" aria-live="polite">
-          {{ angezeigteDaten.length }} von {{ daten.length }} Einträgen
-        </p>
-
-        <!-- Tabelle -->
-        <div class="table-responsive">
-          <table class="table table-striped table-hover align-middle">
-            <caption>Fiktive CO2-Emissionen nach Land und Unternehmen</caption>
-            <thead class="table-success">
-              <tr>
-                <th scope="col" :aria-sort="ariaSort('unternehmen')">
-                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
-                          @click="sortierenNach('unternehmen')">
-                    Unternehmen <span aria-hidden="true">{{ pfeil('unternehmen') }}</span>
-                  </button>
-                </th>
-                <th scope="col" :aria-sort="ariaSort('land')">
-                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
-                          @click="sortierenNach('land')">
-                    Land <span aria-hidden="true">{{ pfeil('land') }}</span>
-                  </button>
-                </th>
-                <th scope="col" :aria-sort="ariaSort('branche')">
-                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
-                          @click="sortierenNach('branche')">
-                    Branche <span aria-hidden="true">{{ pfeil('branche') }}</span>
-                  </button>
-                </th>
-                <th scope="col" class="text-end" :aria-sort="ariaSort('emissionen')">
-                  <button type="button" class="btn btn-link p-0 fw-bold text-reset text-decoration-none"
-                          @click="sortierenNach('emissionen')">
-                    CO2 in Mio. t/Jahr <span aria-hidden="true">{{ pfeil('emissionen') }}</span>
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="eintrag in angezeigteDaten" :key="eintrag.unternehmen">
-                <td>{{ eintrag.unternehmen }}</td>
-                <td>{{ eintrag.land }}</td>
-                <td>{{ eintrag.branche }}</td>
-                <td class="text-end">{{ formatieren(eintrag.emissionen) }}</td>
-              </tr>
-              <tr v-if="angezeigteDaten.length === 0">
-                <td colspan="4" class="text-center text-muted">
-                  Keine Einträge gefunden für „{{ filterLand }}{{ filterUnternehmen }}“.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
+    </main>
 
     <!-- Footer mit rechtlichen Hinweisen -->
     <footer class="bg-dark text-light py-3">
@@ -127,20 +183,22 @@
         <span>
           <a href="#" class="link-light">Impressum</a> ·
           <a href="#" class="link-light">Datenschutz</a>
-        </span>
+       </span>
       </div>
     </footer>
 
   </div>
 
-  <!-- Bootstrap JS und Vue 3 (feste Versionen mit Integritätsprüfung) -->
+  <!-- Bootstrap JS und Vue 3 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
           crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@3.5.43/dist/vue.global.prod.js"
           integrity="sha256-tyOUBS7vHu2hdS2zdYzhvm+IAWkD8i5SQcxzLqMHR44="
           crossorigin="anonymous"></script>
+  <script src="js/sprache.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
+

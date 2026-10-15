@@ -182,10 +182,12 @@
         <span>&copy; 2026 CO2-Footprint</span>
         <span>
           <button type="button" class="btn btn-link link-light p-0 align-baseline"
-                  data-bs-toggle="modal" data-bs-target="#impressumModal">Impressum</button>
+                  data-bs-toggle="modal" data-bs-target="#impressumModal"
+                  data-text="impressum">Impressum</button>
           ·
           <button type="button" class="btn btn-link link-light p-0 align-baseline"
-                  data-bs-toggle="modal" data-bs-target="#datenschutzModal">Datenschutz</button>
+                  data-bs-toggle="modal" data-bs-target="#datenschutzModal"
+                  data-text="datenschutz">Datenschutz</button>
         </span>
       </div>
     </footer>
@@ -197,7 +199,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title h5" id="impressumTitel">Impressum</h2>
+          <h2 class="modal-title h5" id="impressumTitel" data-text="impressum">Impressum</h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
         </div>
         <div class="modal-body">
@@ -216,8 +218,7 @@
           <p>E-Mail: kontakt@co2-footprint.example</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
-        </div>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-text="schliessen">Schließen</button>        </div>
       </div>
     </div>
   </div>
@@ -227,7 +228,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title h5" id="datenschutzTitel">Datenschutzhinweis</h2>
+          <h2 class="modal-title h5" id="datenschutzTitel" data-text="datenschutz">Datenschutzhinweis</h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
         </div>
         <div class="modal-body">
@@ -256,8 +257,7 @@
           </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
-        </div>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-text="schliessen">Schließen</button>        </div>
       </div>
     </div>
   </div>

@@ -16,12 +16,16 @@ const TEXTE = {
   de: {
     start: "Start", daten: "Daten", ueber: "Über uns",
     inhalt: "Inhalt", einfuehrung: "Einführung", tabelle: "Tabelle", hinweise: "Hinweise",
-    titel: "CO2-Emissionen weltweit"
+    titel: "CO2-Emissionen weltweit",
+    impressum: "Impressum", datenschutz: "Datenschutz", schliessen: "Schließen"
+
   },
   ar: {
     start: "الرئيسية", daten: "البيانات", ueber: "من نحن",
     inhalt: "المحتوى", einfuehrung: "مقدمة", tabelle: "الجدول", hinweise: "ملاحظات",
-    titel: "انبعاثات ثاني أكسيد الكربون حول العالم"
+    titel: "انبعاثات ثاني أكسيد الكربون حول العالم",
+    impressum: "بيانات الناشر", datenschutz: "حماية البيانات", schliessen: "إغلاق"
+
   }
 };
 
